@@ -1,0 +1,49 @@
+import random
+
+def hangman():
+    word_list = ["python", "programming", "game", "computer", "algorithm"]
+    selected_word = random.choice(word_list).lower()
+    
+    # Convert the word to a set of characters
+    word_letters = set(selected_word)
+    
+    # Create a set to store guessed letters
+    guessed_letters = set()
+    
+    # Number of incorrect guesses allowed
+    max_attempts = 6
+    
+    # Initialize number of attempts
+    attempts = 0
+    
+    while len(word_letters) > 0 and attempts < max_attempts:
+        # Display current progress of the word
+        print("Word: ", end='')
+        for letter in selected_word:
+            if letter in guessed_letters:
+                print(letter, end=' ')
+            else:
+                print("_", end=' ')
+        print("\n")
+        
+        guess = input("Enter your guess: ").lower()
+        
+        if guess in guessed_letters:
+            print("You've already guessed that letter. Try again.")
+            continue
+        
+        if guess not in selected_word:
+            attempts += 1
+            print("Incorrect guess. Attempts remaining: ", max_attempts - attempts)
+        
+        guessed_letters.add(guess)
+        
+        # Check if guess is correct and update word_letters set
+        word_letters.discard(guess)
+        
+    if attempts == max_attempts:
+        print("You lost! The word was", selected_word)
+    else:
+        print("Congratulations! You guessed the word", selected_word)
+
+hangman()
